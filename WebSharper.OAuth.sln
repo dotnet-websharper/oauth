@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{651338C6-D963-4139-A347-971345769BFA}"
+	ProjectSection(SolutionItems) = preProject
+		build-zafir.fsx = build-zafir.fsx
+		build.fsx = build.fsx
+		ivy-zafir.xml = ivy-zafir.xml
+		ivy.xml = ivy.xml
+	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.OAuth", "WebSharper.OAuth\WebSharper.OAuth.fsproj", "{1E1C0331-269D-46E2-BF35-607197CB1D24}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.OAuth.Test", "WebSharper.OAuth.Test\WebSharper.OAuth.Test.fsproj", "{E7CBECB6-DC65-4A56-8CB7-0FD9BB866F2A}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.OAuth2.Test", "WebSharper.OAuth2.Test\WebSharper.OAuth2.Test.fsproj", "{F1811C6A-9BDE-4103-B233-D35E16C1EE06}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E1C0331-269D-46E2-BF35-607197CB1D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E1C0331-269D-46E2-BF35-607197CB1D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E1C0331-269D-46E2-BF35-607197CB1D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E1C0331-269D-46E2-BF35-607197CB1D24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7CBECB6-DC65-4A56-8CB7-0FD9BB866F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7CBECB6-DC65-4A56-8CB7-0FD9BB866F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7CBECB6-DC65-4A56-8CB7-0FD9BB866F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7CBECB6-DC65-4A56-8CB7-0FD9BB866F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

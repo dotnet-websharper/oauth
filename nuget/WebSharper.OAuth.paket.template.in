@@ -1,0 +1,19 @@
+type file
+id WebSharper.OAuth
+authors
+    IntelliFactory
+owners
+    IntelliFactory
+
+
+description
+    OAuth utilities for WebSharper
+tags
+    Web JavaScript F# C#
+files
+    ../WebSharper.OAuth/bin/Release/net461/WebSharper.OAuth.dll ==> lib/net461
+    ../WebSharper.OAuth/bin/Release/net461/WebSharper.OAuth.xml ==> lib/net461
+dependencies
+        WebSharper ~> LOCKEDVERSION/3
+frameworkAssemblies
+        System.Web

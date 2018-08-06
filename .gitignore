@@ -1,0 +1,12 @@
+bin/
+obj/
+*.suo
+build/
+packages/
+Content/WebSharper/
+Scripts/WebSharper/
+.vs/
+.vscode/
+.fake/
+paket-files/
+nuget/*.paket.template
