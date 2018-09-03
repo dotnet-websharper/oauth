@@ -3,13 +3,13 @@
 module WebSharper.OAuth.OAuth2
 
 open System
-open System.IO
+open System.Collections.Generic
 open System.Net
 open System.Text
-open System.Web
 open WebSharper.Sitelets
 open WebSharper.Web
 open WebSharper.OAuth.Utils
+open Microsoft.AspNetCore.WebUtilities
 
 type ServiceSettings =
     {
@@ -190,60 +190,42 @@ let GetAccessToken (settings: Settings) code =
         if response.ContentType.Contains("json") then
             return parseAccessTokenString responseBody
         else
-            let tokenData = HttpUtility.ParseQueryString(responseBody)
+            let tokenData = parseQueryString responseBody
             return
-                match tokenData.["access_token"] with
-                | null ->
-                    match tokenData.["error"] with
-                    | null -> Failure None
-                    | error -> Failure (Some error)
-                | d -> Success d
+                match tokenData.TryGet "access_token" with
+                | None -> Failure <| tokenData.TryGet "error"
+                | Some d -> Success d
     }
 
 let AuthorizeClient (settings: Settings) (requestUri: Uri) =
-    let queryString = HttpUtility.ParseQueryString(requestUri.Query)
-    let keys = queryString.AllKeys
-    if Seq.exists ((=) "code") keys then
+    let queryString = parseQueryString requestUri.Query
+    match queryString.TryGet "code" with
+    | Some code ->
         async {
-            let! accessToken = GetAccessToken settings queryString.["code"]
+            let! accessToken = GetAccessToken settings code
             match accessToken with
             | Success accessToken ->
                 return AuthenticationResponse.Success {
                     Token = accessToken
-                    State =
-                        if Seq.exists ((=) "state") keys then
-                            Some queryString.["state"]
-                        else None
+                    State = queryString.TryGet "state"
                 }
             | Failure e ->
                 return AuthenticationResponse.Error {
                     Message = e
                     Description = None
                     Uri = None
-                    State =
-                        if Seq.exists ((=) "state") keys then
-                            Some queryString.["state"]
-                        else None
+                    State = queryString.TryGet "state"
                 }
         }
-    else
-        match queryString.["error"] with
-        | null -> AuthenticationResponse.ImplicitSuccess
-        | error ->
+    | None ->
+        match queryString.TryGet "error" with
+        | None -> AuthenticationResponse.ImplicitSuccess
+        | Some error ->
             AuthenticationResponse.Error {
                 Message = Some error
-                Description =
-                    if Seq.exists ((=) "error_description") keys then
-                        Some queryString.["error_description"]
-                    else None
-                Uri =
-                    if Seq.exists ((=) "error_uri") keys then
-                        Some queryString.["error_uri"]
-                    else None
-                State =
-                    if Seq.exists ((=) "state") keys then
-                        Some queryString.["state"]
-                    else None
+                Description = queryString.TryGet "error_description"
+                Uri = queryString.TryGet "error_uri"
+                State = queryString.TryGet "state"
             }
         |> async.Return
 
@@ -255,12 +237,6 @@ type Provider<'a when 'a : equality> =
     }
 
 module ProviderInternals =
-
-    open System
-    open System.Collections.Generic
-    open System.Runtime.CompilerServices
-    open WebSharper.Sitelets
-    open WebSharper.Web
 
     let allProviders = Dictionary<System.Guid, (string -> Settings) * obj>()
 

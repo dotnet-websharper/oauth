@@ -1,10 +1,13 @@
 bin/
 obj/
 *.suo
+*.user
+launchSettings.json
 build/
 packages/
 Content/WebSharper/
 Scripts/WebSharper/
+wwwroot/
 .vs/
 .vscode/
 .fake/

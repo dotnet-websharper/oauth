@@ -6,7 +6,6 @@ open System.Net
 open System.Security.Cryptography
 open System.Security.Cryptography.X509Certificates
 open System.Text
-open System.Web
 open WebSharper.OAuth.Utils
 
 type Token =
@@ -126,19 +125,14 @@ type CallOAuthServiceParams =
     }
 
 let internal normalizeUriWithParams (uri: string) =
-    if not (uri.Contains "?")
-        then uri
-        else
-            let b = uri.Split([|'?'|]).[0]
-            let kvs = System.Web.HttpUtility.ParseQueryString(uri.Substring(uri.IndexOf("?")))
-            let ps = [ for key in kvs.AllKeys do
-                        yield (key, kvs.[key]) ]
+    match splitUriParams uri with
+    | uri, [] -> uri
+    | baseUri, queryParams ->
+        let encPs = queryParams
+                    |> Seq.map(fun (k, v) -> k + "=" + (encode v) )
+                    |> String.concat "&"
 
-            let encPs = ps
-                        |> Seq.map(fun (k, v) -> k + "=" + (encode v) )
-                        |> String.concat "&"
-
-            b + "?" + encPs
+        baseUri + "?" + encPs
 
 
 let internal makeRequest authHeader uri httpMethod log =
@@ -162,13 +156,13 @@ let internal ExtractOAuthTokenFromStr (str:string) =
     let tokenSecret = values.[1].Split('=').[1]
 
     {
-        Key = HttpUtility.UrlDecode tokenKey
-        Secret = HttpUtility.UrlDecode tokenSecret
+        Key = WebUtility.UrlDecode tokenKey
+        Secret = WebUtility.UrlDecode tokenSecret
     }
 
 let internal ExtractParamsFromStr (str:string) =
     let pairs = str.Split('&')
-                |> Seq.map (fun s -> (HttpUtility.UrlDecode( s.Split('=').[0] ), HttpUtility.UrlDecode( s.Split('=').[1] )))
+                |> Seq.map (fun s -> (WebUtility.UrlDecode( s.Split('=').[0] ), WebUtility.UrlDecode( s.Split('=').[1] )))
                 |> Seq.toList
 
     let tokenKey = pairs

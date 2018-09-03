@@ -1,42 +1,35 @@
-namespace WebSharper.OAuth2.Test
+namespace WebSharper.OAuth2.Test.AspNetCore
 
-open WebSharper.Html.Server
 open WebSharper
 open WebSharper.Sitelets
+open WebSharper.UI
+open WebSharper.UI.Server
 
 type Endpoint =
-    | Home
-    | OAuth
-    | Logout
+    | [<EndPoint "/">] Home
+    | [<EndPoint "/oauth">] OAuth
+    | [<EndPoint "/logout">] Logout
 
 module Skin =
+    type MainTemplate = Templating.Template<"Main.html">
 
-    type Page =
-        {
-            Title : string
-            Body : list<Element>
-        }
-
-    let MainTemplate =
-        Content.Template<Page>("~/Main.html")
-            .With("title", fun x -> x.Title)
-            .With("body", fun x -> x.Body)
-
-    let WithTemplate title body (context: Context<_>) =
-        Content.WithTemplateAsync MainTemplate <| async {
-            let! body = body context
-            return {
-                Title = title
-                Body = body
-            }
+    let WithTemplate (title: string) (body: Context<Endpoint> -> Async<#seq<Doc>>) ctx =
+        async {
+            let! body = body ctx
+            return! Content.Page(
+                MainTemplate()
+                    .Title(title)
+                    .Body(body :> seq<Doc>)
+                    .Doc()
+            )
         }
 
 module Site =
-
     open System
     open System.Net
     open System.IO
     open WebSharper.OAuth
+    open WebSharper.UI.Html
 
     let json = WebSharper.Core.Json.Provider.Create()
 
@@ -59,11 +52,11 @@ module Site =
                     Content.Page(
                         Body =
                             [
-                                yield H1 [Text "Authentication"]
-                                yield P [Text (defaultArg err.Message "Unknown error")]
+                                yield h1 [] [text "Authentication"]
+                                yield p [] [text (defaultArg err.Message "Unknown error")]
                                 if err.Description.IsSome then
-                                    yield P [Text err.Description.Value]
-                                yield P [A [HRef (ctx.Link Endpoint.Home)] -< [Text "Back"]]
+                                    yield p [] [text err.Description.Value]
+                                yield p [] [a [attr.href (ctx.Link Endpoint.Home)] [text "Back"]]
                             ])
                 | OAuth2.AuthenticationResponse.Success token -> async {
                     do! ctx.UserSession.LoginUser(token.Token, false)
@@ -79,8 +72,8 @@ module Site =
             | None ->
                 let loginUrl = GoogleProvider.GetAuthorizationRequestUrl(ctx)
                 return [
-                    H1 [Text "Not logged in."]
-                    P [A [HRef loginUrl] -< [Text "Log in"]]
+                    h1 [] [text "Not logged in."]
+                    p [] [a [attr.href loginUrl] [text "Log in"]]
                 ]
             | Some loggedIn ->
                 let token : OAuth2.AuthenticationToken = { Token = loggedIn; State = None }
@@ -100,21 +93,21 @@ module Site =
                             |> WebSharper.Core.Json.Parse
                             |> json.GetDecoder<Google.Response>().Decode
                         return [
-                            H1 [Text ("Welcome " + resp.name + "!")]
-                            Img [Src resp.picture]
-                            P [A [HRef (ctx.Link Endpoint.Logout)] -< [Text "Log out"]]
+                            h1 [] [text ("Welcome " + resp.name + "!")]
+                            img [attr.src resp.picture] []
+                            p [] [a [attr.href (ctx.Link Endpoint.Logout)] [text "Log out"]]
                         ]
                     with e ->
                         return [
-                            H1 [Text "Failed to parse response:"]
-                            P [Text resp]
+                            h1 [] [text "Failed to parse response:"]
+                            p [] [text resp]
                         ]
                 with :? System.Net.WebException as e ->
                     use reader = new StreamReader(e.Response.GetResponseStream())
                     let resp = reader.ReadToEnd()
                     return [
-                        H1 [Text "Failed to retrieve your user data"]
-                        P [Text resp]
+                        h1 [] [text "Failed to retrieve your user data"]
+                        p [] [text resp]
                     ]
         }
 
@@ -123,24 +116,13 @@ module Site =
         return! Content.RedirectTemporary Endpoint.Home
     }
 
+    [<Website>]
     let Main =
-        Sitelet.Sum [
-            Sitelet.Content "/" Home HomePage
-            Sitelet.Content "/logout" Logout LogoutPage
-            GoogleProvider.RedirectEndpointSitelet
-        ]
-
-[<Sealed>]
-type Website() =
-    interface IWebsite<Endpoint> with
-        member this.Sitelet = Site.Main
-        member this.Actions = []
-
-type Global() =
-    inherit System.Web.HttpApplication()
-
-    member g.Application_Start(sender: obj, args: System.EventArgs) =
-        ()
-
-[<assembly: Website(typeof<Website>)>]
-do ()
+        GoogleProvider.RedirectEndpointSitelet
+        <|>
+        Application.MultiPage (fun ctx endpoint ->
+            match endpoint with
+            | Endpoint.Home -> HomePage ctx
+            | Endpoint.Logout -> LogoutPage ctx
+            | Endpoint.OAuth -> failwith "OAuth endpoint should be handled by GoogleProvider"
+        )

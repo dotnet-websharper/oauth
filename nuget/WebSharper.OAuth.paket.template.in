@@ -13,7 +13,7 @@ tags
 files
     ../WebSharper.OAuth/bin/Release/net461/WebSharper.OAuth.dll ==> lib/net461
     ../WebSharper.OAuth/bin/Release/net461/WebSharper.OAuth.xml ==> lib/net461
+    ../WebSharper.OAuth/bin/Release/netstandard2.0/WebSharper.OAuth.dll ==> lib/netstandard2.0
+    ../WebSharper.OAuth/bin/Release/netstandard2.0/WebSharper.OAuth.xml ==> lib/netstandard2.0
 dependencies
         WebSharper ~> LOCKEDVERSION/3
-frameworkAssemblies
-        System.Web

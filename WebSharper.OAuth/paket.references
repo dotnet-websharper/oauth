@@ -1,2 +1,4 @@
 WebSharper
 WebSharper.FSharp
+Microsoft.AspNetCore.WebUtilities restriction: == netstandard2.0
+FSharp.Core

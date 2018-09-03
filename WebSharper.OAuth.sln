@@ -17,6 +17,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.OAuth.Test", "We
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.OAuth2.Test", "WebSharper.OAuth2.Test\WebSharper.OAuth2.Test.fsproj", "{F1811C6A-9BDE-4103-B233-D35E16C1EE06}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.OAuth2.Test.AspNetCore", "WebSharper.OAuth2.Test.AspNetCore\WebSharper.OAuth2.Test.AspNetCore.fsproj", "{C3673CA9-352D-4557-9829-575DA1F8B155}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1811C6A-9BDE-4103-B233-D35E16C1EE06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3673CA9-352D-4557-9829-575DA1F8B155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3673CA9-352D-4557-9829-575DA1F8B155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3673CA9-352D-4557-9829-575DA1F8B155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3673CA9-352D-4557-9829-575DA1F8B155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
