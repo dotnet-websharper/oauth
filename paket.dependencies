@@ -6,10 +6,9 @@ storage: none
 
 nuget WebSharper prerelease
 nuget WebSharper.FSharp prerelease
-nuget WebSharper.Html prerelease
 nuget Microsoft.AspNetCore.WebUtilities
-nuget WebSharper.UI
-nuget WebSharper.AspNetCore
+nuget WebSharper.UI prerelease
+nuget WebSharper.AspNetCore prerelease
 nuget Microsoft.AspNetCore
 nuget Microsoft.AspNetCore.Authentication.Cookies
 nuget Microsoft.AspNetCore.StaticFiles

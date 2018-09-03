@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461</TargetFrameworks>
+    <TargetFramework>net461</TargetFramework>
     <WebSharperProject>Website</WebSharperProject>
     <WebSharperSourceMap>false</WebSharperSourceMap>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -9,9 +9,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.fs" />
+    <Content Include="Main.html" />
+    <None Include="Global.asax" />
+    <None Include="paket.references" />
+    <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../WebSharper.OAuth\WebSharper.OAuth.fsproj" />
+    <ProjectReference Include="..\WebSharper.OAuth2.Test.Common\WebSharper.OAuth2.Test.Common.fsproj" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <Reference Include="System.Web" />
