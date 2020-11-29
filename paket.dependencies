@@ -12,7 +12,7 @@ nuget WebSharper.AspNetCore prerelease
 nuget Microsoft.AspNetCore
 nuget Microsoft.AspNetCore.Authentication.Cookies
 nuget Microsoft.AspNetCore.StaticFiles
-nuget FSharp.Core ~> 4.2.0
+nuget FSharp.Core 4.3.4
 
 group build
     framework: net45
