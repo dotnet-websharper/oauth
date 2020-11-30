@@ -1,4 +1,5 @@
-WebSharper
-WebSharper.FSharp
-FSharp.Core
-WebSharper.UI
+group test 
+	WebSharper
+	WebSharper.FSharp
+	WebSharper.UI
+	FSharp.Core

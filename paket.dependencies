@@ -7,12 +7,10 @@ storage: none
 nuget WebSharper prerelease
 nuget WebSharper.FSharp prerelease
 nuget Microsoft.AspNetCore.WebUtilities
-nuget WebSharper.UI prerelease
-nuget WebSharper.AspNetCore prerelease
 nuget Microsoft.AspNetCore
 nuget Microsoft.AspNetCore.Authentication.Cookies
 nuget Microsoft.AspNetCore.StaticFiles
-nuget FSharp.Core 4.3.4
+nuget FSharp.Core 4.2.3
 
 group build
     framework: net45
@@ -23,3 +21,15 @@ group build
 
 group wsbuild
     git https://github.com/dotnet-websharper/build-script
+
+group test
+    source https://api.nuget.org/v3/index.json
+    source https://daily.websharper.com/nuget
+    framework: net461, netstandard2.0, netcoreapp2.0
+    storage: none
+
+    nuget WebSharper prerelease
+    nuget WebSharper.FSharp prerelease
+    nuget WebSharper.UI prerelease
+    nuget WebSharper.AspNetCore prerelease
+    nuget FSharp.Core 4.3.4

@@ -1,3 +1,4 @@
-WebSharper
-WebSharper.FSharp
-FSharp.Core
+group test
+	WebSharper
+	WebSharper.FSharp
+	FSharp.Core
