@@ -12,4 +12,3 @@ wwwroot/
 .vscode/
 .fake/
 paket-files/
-nuget/*.paket.template
