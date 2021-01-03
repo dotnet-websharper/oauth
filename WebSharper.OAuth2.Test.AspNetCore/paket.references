@@ -1,9 +1,9 @@
-Microsoft.AspNetCore
-Microsoft.AspNetCore.Authentication.Cookies
-Microsoft.AspNetCore.StaticFiles
 group test
 	FSharp.Core
 	WebSharper
 	WebSharper.FSharp
 	WebSharper.UI
 	WebSharper.AspNetCore
+	Microsoft.AspNetCore
+	Microsoft.AspNetCore.Authentication.Cookies
+	Microsoft.AspNetCore.StaticFiles

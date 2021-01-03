@@ -28,7 +28,6 @@ open System.Text
 open WebSharper.Sitelets
 open WebSharper.Web
 open WebSharper.OAuth.Utils
-open Microsoft.AspNetCore.WebUtilities
 
 type ServiceSettings =
     {
